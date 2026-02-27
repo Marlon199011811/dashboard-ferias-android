@@ -1,22 +1,22 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<meta name="theme-color" content="#0d1b3e">
+<meta name="theme-color" content="#0d1b3e" id="metaThemeColor">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Férias">
 <title>Dashboard Férias</title>
 
-<!-- PWA Manifest inline -->
 <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiRGFzaGJvYXJkIGRlIEbDqXJpYXMiLCJzaG9ydF9uYW1lIjoiRsOpcmlhcyIsInN0YXJ0X3VybCI6Ii4iLCJkaXNwbGF5Ijoic3RhbmRhbG9uZSIsImJhY2tncm91bmRfY29sb3IiOiIjMGQxYjNlIiwidGhlbWVfY29sb3IiOiIjMGQxYjNlIiwib3JpZW50YXRpb24iOiJwb3J0cmFpdCIsImljb25zIjpbeyJzcmMiOiJkYXRhOmltYWdlL3N2Zyt4bWw7YmFzZTY0LFBITjJaeUJtYVd4c1BTSmtiMjFoYVc0aUlISmxjR1ZoZEVOdmRXNTBQU0p3WVhOellXeGxJaUJwWkQwaU1UWXdJaUJwYldrOUlqRTJNQ0lnZEdWNGRDMWhibU5vYjNJOUltMXBaR1JzWlNJZ1ptOXVkQzFtWVcxcGJIazlJbE5rYUdGeUlpQnpkSGxzWlQwaWNISnZZMlZrZFhKbElqNDhZMnhoY0hBK1BHUmxabkErUEhOMGVXeGxJSE4wZVd4bFBTSm1ZV3h6WlNJZ1ptOXVkQzFtWVcxcGJIazlJbkJ5YjJKbElpQmlhV3hzUFNKaVlXNXJJaUJ6ZEhsc1pUMGlZbUZqYXlJZ0x6NDhMM05sYkd3K1BDOWpMbk42Wnk0alBDOXpkbWMrIiwic2l6ZXMiOiIxNTJ4MTUyIiwidHlwZSI6ImltYWdlL3N2Zyt4bWwifV19">
 
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap');
 
-  :root {
+  /* ═══ DARK THEME (default) ═══ */
+  :root, [data-theme="dark"] {
     --bg: #070f24;
     --bg2: #0d1b3e;
     --bg3: #162247;
@@ -42,13 +42,157 @@
     --blue: #60a5fa;
     --blue-bg: rgba(96,165,250,0.12);
     --purple: #a78bfa;
-    --nav-h: 64px;
-    --status-bar: env(safe-area-inset-top, 0px);
-    --bottom-safe: env(safe-area-inset-bottom, 0px);
-    --r: 16px;
-    --rs: 10px;
+    --shadow: rgba(0,0,0,0.4);
+    --sheet-header: linear-gradient(135deg, #162247 0%, #1a2f72 60%, #1e3580 100%);
+    --sheet-glow: rgba(77,139,255,0.3);
+    --appbar-bg: #0d1b3e;
+    --toast-bg: #1a2a55;
   }
 
+  /* ═══ LIGHT THEME ═══ */
+  [data-theme="light"] {
+    --bg: #f0f4ff;
+    --bg2: #ffffff;
+    --bg3: #e8eeff;
+    --surface: #dce6ff;
+    --surface2: #c8d8ff;
+    --card: #ffffff;
+    --card2: #f5f8ff;
+    --border: rgba(77,139,255,0.15);
+    --border2: rgba(77,139,255,0.25);
+    --primary: #2563eb;
+    --primary2: #1d4ed8;
+    --primary-dk: #1e40af;
+    --muted: rgba(30,64,175,0.45);
+    --muted2: rgba(30,64,175,0.3);
+    --text: #0f172a;
+    --text2: rgba(15,23,42,0.8);
+    --green: #16a34a;
+    --green-bg: rgba(22,163,74,0.1);
+    --amber: #d97706;
+    --amber-bg: rgba(217,119,6,0.1);
+    --red: #dc2626;
+    --red-bg: rgba(220,38,38,0.1);
+    --blue: #2563eb;
+    --blue-bg: rgba(37,99,235,0.1);
+    --purple: #7c3aed;
+    --shadow: rgba(15,23,42,0.1);
+    --sheet-header: linear-gradient(135deg, #dce6ff 0%, #c5d8ff 60%, #b8d0ff 100%);
+    --sheet-glow: rgba(37,99,235,0.15);
+    --appbar-bg: #ffffff;
+    --toast-bg: #1e3a8a;
+  }
+
+  /* ═══ TRANSITION for theme switch ═══ */
+  *, *::before, *::after {
+    transition-property: background-color, border-color, color, box-shadow, fill, stroke;
+    transition-duration: 0.25s;
+    transition-timing-function: ease;
+  }
+  /* Exclude transitions that would break animations */
+  .loader, .spinning, .stat-bar-fill, .person-card, .sheet, .sheet-overlay, .toast, .nav-active-pill {
+    transition: none !important;
+  }
+  .person-card { transition: transform 0.2s, border-color 0.15s !important; }
+  .stat-bar-fill { transition: width 0.6s cubic-bezier(0.34,1,0.64,1) !important; }
+  .sheet { transition: transform 0.32s cubic-bezier(0.34,1.26,0.64,1) !important; }
+  .sheet-overlay { transition: opacity 0.25s !important; }
+  .toast { transition: all 0.3s cubic-bezier(0.34,1.4,0.64,1) !important; }
+  .nav-active-pill { transition: all 0.3s !important; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ═══ THEME TOGGLE BUTTON ═══ */
+  .theme-btn {
+    width: 40px; height: 40px;
+    border-radius: 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text2);
+    font-size: 18px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    -webkit-user-select: none;
+    user-select: none;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .theme-btn:active { transform: scale(0.9); }
+  .theme-btn .icon-dark,
+  .theme-btn .icon-light {
+    position: absolute;
+    transition: transform 0.4s cubic-bezier(0.34,1.4,0.64,1), opacity 0.3s ease;
+  }
+  [data-theme="dark"] .theme-btn .icon-dark  { transform: scale(1) rotate(0deg); opacity: 1; }
+  [data-theme="dark"] .theme-btn .icon-light { transform: scale(0) rotate(-90deg); opacity: 0; }
+  [data-theme="light"] .theme-btn .icon-dark  { transform: scale(0) rotate(90deg); opacity: 0; }
+  [data-theme="light"] .theme-btn .icon-light { transform: scale(1) rotate(0deg); opacity: 1; }
+
+  /* ═══ LIGHT MODE SPECIFIC OVERRIDES ═══ */
+  [data-theme="light"] .sheet-header-bg {
+    background: var(--sheet-header) !important;
+  }
+  [data-theme="light"] .sheet-header-bg::after {
+    background: radial-gradient(ellipse at 80% 20%, var(--sheet-glow) 0%, transparent 60%);
+  }
+  [data-theme="light"] .sheet-name { color: #0f172a; }
+  [data-theme="light"] .sheet-role { color: rgba(15,23,42,0.5); }
+  [data-theme="light"] .sheet-close {
+    background: rgba(15,23,42,0.08);
+    border-color: rgba(15,23,42,0.1);
+    color: rgba(15,23,42,0.6);
+  }
+  [data-theme="light"] .pc-avatar {
+    border-color: var(--border2);
+    background: var(--bg3);
+  }
+  [data-theme="light"] .pc-cell {
+    background: var(--card2);
+  }
+  [data-theme="light"] .stat-bar-bg {
+    background: var(--surface);
+  }
+  [data-theme="light"] .appbar {
+    background: var(--appbar-bg);
+    box-shadow: 0 1px 12px rgba(15,23,42,0.08);
+  }
+  [data-theme="light"] .bottom-nav {
+    background: rgba(255,255,255,0.95);
+    box-shadow: 0 -1px 12px rgba(15,23,42,0.08);
+  }
+  [data-theme="light"] .nav-label { color: rgba(15,23,42,0.4); }
+  [data-theme="light"] .nav-item.active .nav-label { color: var(--primary2); }
+  [data-theme="light"] .search-bar {
+    background: var(--card);
+    box-shadow: 0 1px 8px rgba(15,23,42,0.06);
+  }
+  [data-theme="light"] .chip {
+    background: var(--card);
+    color: var(--text2);
+  }
+  [data-theme="light"] .chip.active {
+    background: var(--primary);
+    color: #fff;
+  }
+  [data-theme="light"] .sheet-overlay {
+    background: rgba(15,23,42,0.5);
+  }
+  [data-theme="light"] .badge.b-ferias   { background: rgba(37,99,235,0.12); color: #1d4ed8; }
+  [data-theme="light"] .badge.b-concluido{ background: rgba(22,163,74,0.12); color: #15803d; }
+  [data-theme="light"] .badge.b-agendado { background: rgba(217,119,6,0.12); color: #b45309; }
+  [data-theme="light"] .badge.b-vencer   { background: rgba(220,38,38,0.12); color: #b91c1c; }
+  [data-theme="light"] .badge.b-ativo    { background: rgba(37,99,235,0.1);  color: #1d4ed8; }
+  [data-theme="light"] .badge.b-desligado{ background: rgba(100,116,139,0.1); color: #475569; }
+  [data-theme="light"] .toast { background: #1e3a8a; }
+  [data-theme="light"] .appbar-icon {
+    box-shadow: 0 4px 16px rgba(37,99,235,0.25);
+  }
+  [data-theme="light"] .action-btn {
+    box-shadow: 0 4px 20px rgba(37,99,235,0.2);
+  }
+  [data-theme="light"] .status-bar-space { background: var(--appbar-bg); }
+
+  /* ═══ BASE STYLES (unchanged from original) ═══ */
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
   html { height: 100%; overflow: hidden; }
   body {
@@ -61,17 +205,22 @@
     -webkit-overflow-scrolling: touch;
   }
 
-  /* ═══ SHELL ═══ */
+  :root {
+    --nav-h: 64px;
+    --status-bar: env(safe-area-inset-top, 0px);
+    --bottom-safe: env(safe-area-inset-bottom, 0px);
+    --r: 16px;
+    --rs: 10px;
+  }
+
   #app { display: flex; flex-direction: column; height: 100dvh; }
 
-  /* ═══ STATUS BAR SPACE ═══ */
   .status-bar-space {
     height: var(--status-bar);
     background: var(--bg2);
     flex-shrink: 0;
   }
 
-  /* ═══ TOP APP BAR ═══ */
   .appbar {
     background: var(--bg2);
     padding: 12px 16px 10px;
@@ -105,15 +254,12 @@
     font-size: 17px;
     display: flex; align-items: center; justify-content: center;
     cursor: pointer;
-    transition: all 0.15s;
     -webkit-user-select: none;
     user-select: none;
   }
   .icon-btn:active { transform: scale(0.9); background: var(--surface2); }
   .spinning { animation: spin 0.7s linear infinite; }
-  @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* ═══ CONTENT AREA ═══ */
   .content-scroll {
     flex: 1;
     overflow-y: auto;
@@ -123,11 +269,9 @@
     padding-bottom: calc(var(--nav-h) + var(--bottom-safe) + 16px);
   }
 
-  /* ═══ TABS / VIEWS ═══ */
   .view { display: none; }
   .view.active { display: block; }
 
-  /* ═══ SEARCH BAR ═══ */
   .search-wrap {
     padding: 12px 16px 0;
     position: sticky; top: 0;
@@ -144,7 +288,6 @@
     border-radius: 14px;
     padding: 0 14px;
     height: 46px;
-    transition: border-color 0.2s;
   }
   .search-bar:focus-within { border-color: var(--primary); }
   .search-bar input {
@@ -173,7 +316,6 @@
   }
   .clear-search.show { display: flex; }
 
-  /* ═══ CHIPS / FILTERS ═══ */
   .chips-scroll {
     padding: 10px 16px 4px;
     overflow-x: auto;
@@ -194,7 +336,6 @@
     border: 1px solid var(--border2);
     background: var(--card);
     color: var(--text2);
-    transition: all 0.15s;
     white-space: nowrap;
     -webkit-user-select: none;
     user-select: none;
@@ -203,7 +344,6 @@
   .chip:active { transform: scale(0.95); }
   .chip-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; opacity: 0.7; }
 
-  /* ═══ SUMMARY CARDS ═══ */
   .summary-section { padding: 12px 16px 0; }
   .summary-grid {
     display: grid;
@@ -218,7 +358,6 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    transition: all 0.2s;
     cursor: pointer;
   }
   .sum-card:active { transform: scale(0.97); }
@@ -229,14 +368,12 @@
     font-size: 20px;
     flex-shrink: 0;
   }
-  .sum-info {}
   .sum-val { font-size: 26px; font-weight: 900; letter-spacing: -1.5px; line-height: 1; }
   .sum-label { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 2px; }
   .sum-card.wide { grid-column: 1/-1; }
   .sum-card.wide .sum-ico { width: 48px; height: 48px; font-size: 22px; }
   .sum-card.wide .sum-val { font-size: 34px; }
 
-  /* ═══ SECTION HEADER ═══ */
   .section-hdr {
     padding: 16px 16px 8px;
     display: flex;
@@ -246,7 +383,6 @@
   .section-title { font-size: 13px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
   .section-count { font-size: 12px; font-weight: 700; color: var(--primary2); }
 
-  /* ═══ CARD LIST ═══ */
   .card-list { padding: 0 16px; display: flex; flex-direction: column; gap: 10px; }
 
   .person-card {
@@ -256,7 +392,6 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    transition: all 0.2s;
     cursor: pointer;
     animation: slideUp 0.3s ease both;
   }
@@ -269,7 +404,6 @@
     gap: 12px;
     padding: 14px 14px 10px;
   }
-
   .pc-avatar {
     width: 52px; height: 52px;
     border-radius: 50%;
@@ -293,12 +427,10 @@
     cursor: pointer;
     z-index: 2;
   }
-
   .pc-info { flex: 1; min-width: 0; }
   .pc-name { font-size: 15px; font-weight: 800; color: var(--text); line-height: 1.2; letter-spacing: -0.2px; }
   .pc-role { font-size: 11px; font-weight: 500; color: var(--muted); margin-top: 2px; }
   .pc-badge { margin-top: 5px; }
-
   .pc-local {
     font-size: 10px;
     font-weight: 700;
@@ -312,7 +444,6 @@
     align-self: flex-start;
     margin-top: 2px;
   }
-
   .pc-body {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -338,7 +469,6 @@
   .cv-amber  { color: var(--amber); }
   .cv-red    { color: var(--red); }
 
-  /* ═══ BADGE ═══ */
   .badge {
     display: inline-flex;
     align-items: center;
@@ -357,7 +487,6 @@
   .b-ativo    { background: rgba(77,139,255,0.12); color: var(--primary2); }
   .b-desligado{ background: rgba(100,116,139,0.12); color: #64748b; }
 
-  /* ═══ BOTTOM NAV ═══ */
   .bottom-nav {
     position: fixed;
     bottom: 0; left: 0; right: 0;
@@ -379,21 +508,16 @@
     justify-content: center;
     gap: 3px;
     cursor: pointer;
-    transition: all 0.2s;
     padding: 8px 4px 0;
     -webkit-user-select: none;
     user-select: none;
     position: relative;
   }
   .nav-item:active { opacity: 0.7; }
-  .nav-icon {
-    font-size: 22px;
-    transition: transform 0.2s;
-    line-height: 1;
-  }
+  .nav-icon { font-size: 22px; line-height: 1; }
+  .nav-item.active .nav-icon { transform: scale(1.15); }
   .nav-label { font-size: 10px; font-weight: 700; color: var(--muted2); letter-spacing: 0.02em; }
   .nav-item.active .nav-label { color: var(--primary2); }
-  .nav-item.active .nav-icon { transform: scale(1.15); }
   .nav-active-pill {
     position: absolute;
     top: 0; left: 50%;
@@ -401,12 +525,10 @@
     height: 3px; width: 32px;
     border-radius: 0 0 4px 4px;
     background: var(--primary);
-    transition: all 0.3s;
     opacity: 0;
   }
   .nav-item.active .nav-active-pill { opacity: 1; }
 
-  /* ═══ MODAL BOTTOM SHEET ═══ */
   .sheet-overlay {
     position: fixed; inset: 0; z-index: 200;
     background: rgba(7,15,36,0.7);
@@ -415,10 +537,8 @@
     align-items: flex-end;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.25s;
   }
   .sheet-overlay.open { opacity: 1; pointer-events: all; }
-
   .sheet {
     background: var(--bg2);
     width: 100%;
@@ -430,10 +550,8 @@
     display: flex;
     flex-direction: column;
     transform: translateY(100%);
-    transition: transform 0.32s cubic-bezier(0.34,1.26,0.64,1);
   }
   .sheet-overlay.open .sheet { transform: translateY(0); }
-
   .sheet-handle {
     width: 36px; height: 4px;
     border-radius: 2px;
@@ -441,10 +559,9 @@
     margin: 12px auto 0;
     flex-shrink: 0;
   }
-
   .sheet-header-bg {
     height: 130px;
-    background: linear-gradient(135deg, var(--bg3) 0%, #1a2f72 60%, #1e3580 100%);
+    background: var(--sheet-header);
     position: relative;
     display: flex;
     align-items: flex-end;
@@ -456,9 +573,8 @@
   .sheet-header-bg::after {
     content: '';
     position: absolute; inset: 0;
-    background: radial-gradient(ellipse at 80% 20%, rgba(77,139,255,0.3) 0%, transparent 60%);
+    background: radial-gradient(ellipse at 80% 20%, var(--sheet-glow) 0%, transparent 60%);
   }
-
   .sheet-avatar {
     width: 68px; height: 68px;
     border-radius: 50%;
@@ -469,15 +585,13 @@
     overflow: hidden;
     flex-shrink: 0;
     position: relative; z-index: 1;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    box-shadow: 0 4px 20px var(--shadow);
   }
   .sheet-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
-
   .sheet-identity { position: relative; z-index: 1; }
   .sheet-name { font-size: 16px; font-weight: 800; color: #fff; letter-spacing: -0.3px; }
   .sheet-role { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 3px; text-transform: uppercase; letter-spacing: 0.06em; }
   .sheet-badge-row { margin-top: 7px; }
-
   .sheet-close {
     position: absolute; top: 12px; right: 12px; z-index: 2;
     width: 32px; height: 32px;
@@ -490,7 +604,6 @@
     display: flex; align-items: center; justify-content: center;
   }
   .sheet-close:active { background: rgba(255,255,255,0.2); }
-
   .sheet-scroll { overflow-y: auto; flex: 1; -webkit-overflow-scrolling: touch; }
   .sheet-body { padding: 20px 20px; display: flex; flex-direction: column; gap: 18px; }
 
@@ -503,9 +616,7 @@
     padding-bottom: 8px;
     border-bottom: 1px solid var(--border);
   }
-
   .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-  .detail-grid.three { grid-template-columns: 1fr 1fr 1fr; }
   .df {
     background: var(--card);
     border-radius: 10px;
@@ -525,12 +636,10 @@
   .df-val.amber  { color: var(--amber); }
   .df-val.red    { color: var(--red); }
 
-  /* ═══ FILTER SHEET ═══ */
   .filter-section { padding: 16px; }
   .filter-section-title { font-size: 11px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
   .filter-chips { display: flex; flex-wrap: wrap; gap: 7px; }
 
-  /* ═══ ACTION BTN ═══ */
   .action-btn {
     display: flex;
     align-items: center;
@@ -546,7 +655,6 @@
     font-weight: 800;
     border: none;
     cursor: pointer;
-    transition: all 0.15s;
     letter-spacing: 0.02em;
     box-shadow: 0 4px 20px rgba(77,139,255,0.3);
     margin-top: 4px;
@@ -559,7 +667,6 @@
     box-shadow: none;
   }
 
-  /* ═══ ESTADO VAZIO ═══ */
   .empty-state {
     padding: 60px 20px;
     display: flex;
@@ -573,7 +680,6 @@
   .empty-title { font-size: 16px; font-weight: 700; color: var(--text2); }
   .empty-sub { font-size: 13px; text-align: center; line-height: 1.5; }
 
-  /* ═══ LOADER ═══ */
   .loader-wrap { padding: 60px 20px; display: flex; flex-direction: column; align-items: center; gap: 16px; }
   .loader {
     width: 40px; height: 40px;
@@ -584,30 +690,27 @@
   }
   .loader-text { color: var(--muted); font-size: 13px; font-weight: 600; }
 
-  /* ═══ TOAST ═══ */
   .toast {
     position: fixed;
     bottom: calc(var(--nav-h) + var(--bottom-safe) + 16px);
     left: 16px; right: 16px;
     z-index: 500;
-    background: #1a2a55;
+    background: var(--toast-bg);
     color: #fff;
     padding: 13px 18px;
     border-radius: 14px;
     font-size: 13px;
     font-weight: 700;
     display: flex; align-items: center; gap: 10px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    box-shadow: 0 8px 32px var(--shadow);
     transform: translateY(20px);
     opacity: 0;
-    transition: all 0.3s cubic-bezier(0.34,1.4,0.64,1);
     pointer-events: none;
   }
   .toast.show { transform: translateY(0); opacity: 1; }
   .toast.ok { border-left: 4px solid var(--green); }
   .toast.err { border-left: 4px solid var(--red); }
 
-  /* ═══ ESTATÍSTICAS TAB ═══ */
   .stats-section { padding: 16px; }
   .stats-bar-card {
     background: var(--card);
@@ -616,17 +719,14 @@
     padding: 16px;
     margin-bottom: 12px;
   }
-  .stats-bar-title { font-size: 13px; font-weight: 800; margin-bottom: 14px; }
+  .stats-bar-title { font-size: 13px; font-weight: 800; margin-bottom: 14px; color: var(--text); }
   .stat-row { margin-bottom: 12px; }
   .stat-row:last-child { margin-bottom: 0; }
   .stat-row-hdr { display: flex; justify-content: space-between; margin-bottom: 5px; }
   .stat-row-label { font-size: 12px; font-weight: 600; color: var(--text2); }
   .stat-row-count { font-size: 12px; font-weight: 800; color: var(--primary2); }
   .stat-bar-bg { height: 8px; background: var(--surface); border-radius: 4px; overflow: hidden; }
-  .stat-bar-fill { height: 100%; border-radius: 4px; transition: width 0.6s cubic-bezier(0.34,1,0.64,1); }
-
-  /* Ripple effect */
-  .person-card, .sum-card, .chip, .nav-item { position: relative; overflow: hidden; }
+  .stat-bar-fill { height: 100%; border-radius: 4px; }
 
   input[type=file] { display: none; }
 
@@ -650,6 +750,11 @@
       <div class="appbar-sub">Engenharia · 2025 – 2027</div>
     </div>
     <div class="appbar-actions">
+      <!-- THEME TOGGLE -->
+      <div class="theme-btn" id="btnTheme" onclick="toggleTheme()" title="Alternar tema">
+        <span class="icon-dark">🌙</span>
+        <span class="icon-light">☀️</span>
+      </div>
       <div class="icon-btn" id="btnFilter" onclick="openFilterSheet()">⚙️</div>
       <div class="icon-btn" id="btnRefresh" onclick="loadData()">↻</div>
     </div>
@@ -660,8 +765,6 @@
 
     <!-- HOME VIEW -->
     <div class="view active" id="viewHome">
-
-      <!-- Search -->
       <div class="search-wrap">
         <div class="search-bar">
           <span class="search-icon">🔍</span>
@@ -670,7 +773,6 @@
         </div>
       </div>
 
-      <!-- Status Chips -->
       <div class="chips-scroll">
         <div class="chips-row" id="statusChips">
           <div class="chip active" data-status="" onclick="setStatusChip(this, '')"><span class="chip-dot"></span>Todos</div>
@@ -682,7 +784,6 @@
         </div>
       </div>
 
-      <!-- List -->
       <div class="section-hdr">
         <span class="section-title" id="listTitle">Colaboradores</span>
         <span class="section-count" id="listCount">—</span>
@@ -743,7 +844,7 @@
   <div class="sheet" id="filterSheet">
     <div class="sheet-handle"></div>
     <div style="padding: 16px 20px 12px; border-bottom: 1px solid var(--border); flex-shrink:0">
-      <div style="font-size:16px; font-weight:800">Filtros</div>
+      <div style="font-size:16px; font-weight:800; color:var(--text)">Filtros</div>
       <div style="font-size:12px; color:var(--muted); margin-top:2px">Selecione para filtrar colaboradores</div>
     </div>
     <div style="overflow-y:auto; flex:1; -webkit-overflow-scrolling:touch;">
@@ -771,15 +872,37 @@ let activeFilters = { local: '', setor: '', equipe: '', funcao: '' };
 let pendingFilters = { local: '', setor: '', equipe: '', funcao: '' };
 let currentTab = 'home';
 
+/* ═══ THEME ═══ */
+function toggleTheme() {
+  const html = document.documentElement;
+  const current = html.getAttribute('data-theme') || 'dark';
+  const next = current === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('theme', next);
+  // Update meta theme-color
+  const metaColor = document.getElementById('metaThemeColor');
+  metaColor.content = next === 'dark' ? '#0d1b3e' : '#ffffff';
+  if (navigator.vibrate) navigator.vibrate(10);
+}
+
+function initTheme() {
+  const saved = localStorage.getItem('theme');
+  // Default to dark; if user prefers light system theme and no saved pref, use light
+  const preferred = saved || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+  document.documentElement.setAttribute('data-theme', preferred);
+  const metaColor = document.getElementById('metaThemeColor');
+  metaColor.content = preferred === 'dark' ? '#0d1b3e' : '#ffffff';
+}
+
 /* ═══ INIT ═══ */
 document.addEventListener('DOMContentLoaded', () => {
+  initTheme();
   loadData();
   document.getElementById('searchInput').addEventListener('input', () => {
     const val = document.getElementById('searchInput').value;
     document.getElementById('clearSearch').classList.toggle('show', val.length > 0);
     renderCards();
   });
-  // Prevent zoom on double tap for iOS
   let lastTouchEnd = 0;
   document.addEventListener('touchend', e => {
     const now = Date.now();
@@ -796,7 +919,6 @@ function switchTab(tab) {
   document.getElementById('nav' + capitalize(tab)).classList.add('active');
   document.getElementById('view' + capitalize(tab)).classList.add('active');
   if (tab === 'stats') renderStats();
-  // Scroll to top
   document.getElementById('contentScroll').scrollTo({ top: 0, behavior: 'smooth' });
 }
 function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
@@ -861,7 +983,6 @@ function setStatusChip(el, status) {
   document.querySelectorAll('#statusChips .chip').forEach(c => c.classList.remove('active'));
   el.classList.add('active');
   renderCards();
-  // Haptic feedback simulation
   if (navigator.vibrate) navigator.vibrate(10);
 }
 
@@ -921,7 +1042,6 @@ function renderCards() {
 
   document.getElementById('cardList').innerHTML = filtered.map((c, i) => personCardHTML(c, i)).join('');
 
-  // Bind photo upload buttons
   filtered.forEach(c => {
     const btn = document.getElementById(`ph-${c.rowIndex}`);
     if (btn) btn.addEventListener('click', (e) => { e.stopPropagation(); triggerPhotoUpload(c.rowIndex); });
@@ -1147,9 +1267,6 @@ async function savePhoto(rowIndex, base64) {
     const item = allData.find(c => c.rowIndex === rowIndex);
     if (item) item.foto = base64;
 
-    // Update avatars
-    const av = document.getElementById(`av-${rowIndex}`);
-    if (av) av.innerHTML = `<img src="${base64}" alt="">`;
     const shAv = document.getElementById('shAvatar');
     if (shAv && shAv.dataset.ri == rowIndex) shAv.innerHTML = `<img src="${base64}" alt="">`;
 
@@ -1201,7 +1318,6 @@ function renderStats() {
   }
 
   document.getElementById('statsContent').innerHTML = `
-    <!-- Summary cards -->
     <div class="summary-grid" style="margin-bottom:12px">
       <div class="sum-card wide">
         <div class="sum-ico" style="background:rgba(77,139,255,0.15)">👨‍💼</div>
@@ -1224,13 +1340,11 @@ function renderStats() {
         <div class="sum-info"><div class="sum-val" style="color:var(--red)">${ct.vencer}</div><div class="sum-label">A Vencer</div></div>
       </div>
     </div>
-
     ${barCard('Por Local', byLocal)}
     ${barCard('Por Equipe', byEquipe)}
     ${barCard('Por Setor', bySetor)}
   `;
 
-  // Animate bars
   requestAnimationFrame(() => {
     document.querySelectorAll('.stat-bar-fill').forEach(el => {
       const w = el.style.width;
